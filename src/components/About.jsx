@@ -9,7 +9,15 @@ export default function About() {
   return (
     <section id="about" className="py-16 px-4 md:px-8 bg-white relative">
       <div className="max-w-7xl mx-auto">
-        <h2 className="font-oldStandard text-[#4CAF50] text-4xl font-bold mb-16 text-right">About</h2>
+        <motion.h2 
+          className="font-oldStandard text-[#4CAF50] text-4xl font-bold mb-16 text-right"
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          About
+        </motion.h2>
         <div className="flex flex-col md:flex-row gap-12 items-start">
           {/* Image Grid with Dots */}
           <div className="flex-1 flex gap-6 relative">

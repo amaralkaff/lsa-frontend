@@ -1,4 +1,5 @@
 import React from 'react';
+import { ArrowDownRightIcon } from '@heroicons/react/24/solid';
 import { motion } from 'framer-motion';
 import gallery1 from '../assets/gallery1.jpeg'
 import gallery2 from '../assets/gallery2.jpeg'
@@ -16,7 +17,7 @@ const News = () => {
       order: 1
     },
     {
-      date: '19 Maret 2022',
+      date: '19 Maret 2022', 
       title: 'Dampaknya Terhadap Stabilitas Global',
       content: 'Ketegangan di Laut China Selatan semakin meningkat seiring perebutan klaim wilayah dan sumber daya alam di kawasan tersebut. Konflik ini melibatkan berbagai negara besar seperti China, Filipina, Vietnam, dan Amerika Serikat...',
       showImage: false,
@@ -25,7 +26,7 @@ const News = () => {
     },
     {
       date: '19 Maret 2022',
-      title: 'Dampaknya Terhadap Stabilitas Global',
+      title: 'Dampaknya Terhadap Stabilitas Global', 
       content: 'Ketegangan di Laut China Selatan semakin meningkat seiring perebutan klaim wilayah dan sumber daya alam di kawasan tersebut. Konflik ini melibatkan berbagai negara besar seperti China, Filipina, Vietnam, dan Amerika Serikat...',
       showImage: true,
       image: gallery3,
@@ -62,7 +63,8 @@ const News = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1
+        staggerChildren: 0.2,
+        delayChildren: 0.3
       }
     }
   };
@@ -70,28 +72,55 @@ const News = () => {
   const itemVariants = {
     hidden: { 
       opacity: 0,
-      y: 20
+      y: 50
     },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.5
+        type: "spring",
+        stiffness: 100,
+        damping: 12
       }
     }
   };
 
+  const buttonVariants = {
+    hover: {
+      scale: 1.05,
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 10
+      }
+    },
+    tap: {
+      scale: 0.95
+    }
+  };
+
   return (
-    <div id="news" className="bg-white py-16">
+    <motion.div 
+      id="news" 
+      className="bg-[#EDEDED] py-16"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8 }}
+    >
       <div className="max-w-7xl mx-auto px-4">
         <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
           className="text-center mb-12"
+          initial={{ opacity: 0, y: -50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ 
+            duration: 0.8,
+            type: "spring",
+            bounce: 0.4
+          }}
+          viewport={{ once: true }}
         >
-          <h3 className="text-gray-600 uppercase text-sm tracking-wider mb-2">
+          <h3 className="text-black-600 uppercase text-xl tracking-wider mb-2">
             BLOG LEMBAGA SINERGI ANALITIKA
           </h3>
           <h2 className="text-green-600 text-5xl font-serif">
@@ -104,22 +133,27 @@ const News = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 [&>*:nth-child(5)]:md:-mt-[220px]"
         >
           {news.sort((a, b) => a.order - b.order).map((item, index) => (
             <motion.div 
               key={index}
               variants={itemVariants}
-              className={`bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${item.showImage ? 'h-auto' : 'h-[200px]'}`}
+              whileHover={{ y: -10 }}
+              className={`bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 ${item.showImage ? 'h-auto' : 'h-[200px]'}`}
             >
               {item.showImage && (
-                <div className="aspect-w-16 aspect-h-9 overflow-hidden rounded-t-lg">
+                <motion.div 
+                  className="aspect-w-16 aspect-h-9 overflow-hidden rounded-t-lg"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                >
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+                    className="w-full h-48 object-cover"
                   />
-                </div>
+                </motion.div>
               )}
               <div className={`p-6 ${!item.showImage ? 'h-full flex flex-col justify-between' : ''}`}>
                 <div>
@@ -131,32 +165,37 @@ const News = () => {
                     {item.content}
                   </p>
                 </div>
-                <div className="flex items-center">
-                  <button className="text-green-600 flex items-center text-sm font-medium hover:text-green-700 transition-colors group">
-                    Cek Detail
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1 transform transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </button>
-                </div>
+                <motion.button 
+                  className="text-green-600 flex items-center text-sm font-medium hover:text-green-700 transition-colors group"
+                  whileHover={{ x: 5 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <ArrowDownRightIcon className="w-4 h-4 mr-2 border border-green-600 rounded-full p-0.5" />
+                  Cek Detail
+                </motion.button>
               </div>
             </motion.div>
           ))}
         </motion.div>
 
         <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
           className="text-center mt-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.8 }}
         >
-          <button className="px-8 py-3 border-2 border-green-600 text-green-600 rounded-full text-sm font-medium hover:bg-green-600 hover:text-white transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1">
+          <motion.button 
+            className="px-8 py-3 border-2 border-green-600 text-green-600 rounded-full text-sm font-medium hover:bg-green-600 hover:text-white transition-all duration-300"
+            variants={buttonVariants}
+            whileHover="hover"
+            whileTap="tap"
+          >
             Tulisan Menarik Lainnya
-          </button>
+          </motion.button>
         </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

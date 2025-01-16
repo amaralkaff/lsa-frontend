@@ -6,6 +6,8 @@ import Program from './components/Program'
 import Gallery from './components/Gallery'
 import Partners from './components/Partners'
 import News from './components/News'
+import Contact from './components/Contact'
+import Footer from './components/Footer'
 import { motion } from 'framer-motion'
 
 function App() {
@@ -36,6 +38,12 @@ function App() {
       </div>
       <div className="mt-32">
         <News />
+      </div>
+      <div className="mt-32">
+        <Contact />
+      </div>
+      <div className="mt-32">
+        <Footer />
       </div>
     </motion.div>
   )
