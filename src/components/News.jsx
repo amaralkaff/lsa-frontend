@@ -57,37 +57,74 @@ const News = () => {
     }
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { 
+      opacity: 0,
+      y: 20
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
   return (
-    <div className="bg-white py-16">
+    <div id="news" className="bg-white py-16">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center mb-12">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
           <h3 className="text-gray-600 uppercase text-sm tracking-wider mb-2">
             BLOG LEMBAGA SINERGI ANALITIKA
           </h3>
           <h2 className="text-green-600 text-5xl font-serif">
             News
           </h2>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+        >
           {news.sort((a, b) => a.order - b.order).map((item, index) => (
-            <div 
-              key={index} 
-              className={`bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 ${item.showImage ? 'h-auto' : 'h-[200px]'}`}
+            <motion.div 
+              key={index}
+              variants={itemVariants}
+              className={`bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${item.showImage ? 'h-auto' : 'h-[200px]'}`}
             >
               {item.showImage && (
-                <div className="aspect-w-16 aspect-h-9">
+                <div className="aspect-w-16 aspect-h-9 overflow-hidden rounded-t-lg">
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-48 object-cover rounded-t-lg"
+                    className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
                   />
                 </div>
               )}
               <div className={`p-6 ${!item.showImage ? 'h-full flex flex-col justify-between' : ''}`}>
                 <div>
                   <p className="text-gray-500 text-sm">{item.date}</p>
-                  <h3 className="text-green-600 text-xl font-medium mt-2 mb-3">
+                  <h3 className="text-green-600 text-xl font-medium mt-2 mb-3 hover:text-green-700 transition-colors">
                     {item.title}
                   </h3>
                   <p className={`text-gray-600 text-sm leading-relaxed ${!item.showImage ? 'line-clamp-2' : 'line-clamp-3'} mb-4`}>
@@ -95,23 +132,29 @@ const News = () => {
                   </p>
                 </div>
                 <div className="flex items-center">
-                  <button className="text-green-600 flex items-center text-sm font-medium hover:text-green-700 transition-colors">
+                  <button className="text-green-600 flex items-center text-sm font-medium hover:text-green-700 transition-colors group">
                     Cek Detail
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1 transform transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </button>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        <div className="text-center mt-12">
-          <button className="px-8 py-3 border-2 border-green-600 text-green-600 rounded-full text-sm font-medium hover:bg-green-600 hover:text-white transition-colors duration-300">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 }}
+          className="text-center mt-12"
+        >
+          <button className="px-8 py-3 border-2 border-green-600 text-green-600 rounded-full text-sm font-medium hover:bg-green-600 hover:text-white transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1">
             Tulisan Menarik Lainnya
           </button>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

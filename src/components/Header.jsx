@@ -13,6 +13,25 @@ export default function Header() {
       } else {
         setIsScrolled(false)
       }
+
+      // Deteksi section yang sedang aktif
+      const sections = menuItems.map(item => 
+        item === 'Home' ? document.documentElement : document.getElementById(item.toLowerCase())
+      )
+
+      let current = 'Home'
+      sections.forEach((section, index) => {
+        if (section) {
+          const sectionTop = section === document.documentElement ? 0 : section.offsetTop - 100
+          const sectionBottom = section === document.documentElement ? window.innerHeight : sectionTop + section.offsetHeight
+          
+          if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
+            current = menuItems[index]
+          }
+        }
+      })
+      
+      setActiveMenu(current)
     }
 
     window.addEventListener('scroll', handleScroll)
