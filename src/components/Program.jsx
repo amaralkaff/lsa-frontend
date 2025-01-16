@@ -1,11 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Dots from './Dots'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import gallery1 from '../assets/gallery1.jpeg'
 import gallery2 from '../assets/gallery2.jpeg'
 import gallery3 from '../assets/gallery3.jpeg'
 
 const Program = () => {
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const modalVariants = {
+    hidden: {
+      opacity: 0,
+      scale: 0.8
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.3
+      }
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.8,
+      transition: {
+        duration: 0.3
+      }
+    }
+  };
+
   const programs = [
     {
       title: "Human Library",
@@ -84,7 +107,7 @@ const Program = () => {
           {programs.map((program, index) => (
             <motion.div 
               key={index} 
-              style={{ background: 'linear-gradient(180deg, rgba(128, 206, 106, 0.15) 0%, rgba(128, 206, 106, 0.05) 100%)' }} 
+              style={{ background: 'linear-gradient(180deg, rgba(128, 206, 106, 0.15) 0%, rgba(128, 206, 106, 0.05) 100%)', border: '1px solid #80CE6A' }} 
               className="rounded-lg p-6 hover:shadow-lg transition duration-300 relative"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -104,11 +127,13 @@ const Program = () => {
                 <p className="text-base font-poppins text-gray-600">{program.description}</p>
               </motion.div>
               <motion.div 
-                className="h-48 overflow-hidden rounded-lg absolute bottom-6 left-6 right-6"
+                className="h-48 overflow-hidden rounded-lg absolute bottom-6 left-6 right-6 cursor-pointer"
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: 0.4 + index * 0.2 }}
                 viewport={{ once: true }}
+                onClick={() => setSelectedImage(program.image)}
+                whileHover={{ scale: 1.05 }}
               >
                 <img 
                   src={program.image} 
@@ -120,6 +145,43 @@ const Program = () => {
           ))}
         </div>
       </div>
+
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedImage(null)}
+            className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4"
+          >
+            <motion.div
+              variants={modalVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="relative max-w-4xl w-full"
+              onClick={e => e.stopPropagation()}
+            >
+              <img
+                src={selectedImage}
+                alt="Enlarged view"
+                className="w-full h-auto rounded-lg"
+              />
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setSelectedImage(null)}
+                className="absolute top-4 right-4 text-white bg-black bg-opacity-50 rounded-full p-2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }

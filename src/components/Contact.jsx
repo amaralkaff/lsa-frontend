@@ -23,7 +23,7 @@ const Contact = () => {
           <div className="space-y-6">
             {/* Lombok Office */}
             <motion.div 
-              className="bg-[#F3FFF3] rounded-lg p-6 flex items-start gap-4"
+              className="bg-[#F3FFF3] rounded-lg p-6 flex items-start gap-4 border border-[#229D00]"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -40,7 +40,7 @@ const Contact = () => {
 
             {/* Yogyakarta Office */}
             <motion.div 
-              className="bg-[#F3FFF3] rounded-lg p-6 flex items-start gap-4"
+              className="bg-[#F3FFF3] rounded-lg p-6 flex items-start gap-4 border border-[#229D00]"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -57,7 +57,7 @@ const Contact = () => {
 
             {/* Call */}
             <motion.div 
-              className="bg-[#F3FFF3] rounded-lg p-6 flex items-center gap-4"
+              className="bg-[#F3FFF3] rounded-lg p-6 flex items-center gap-4 border border-[#229D00]"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
@@ -72,7 +72,7 @@ const Contact = () => {
 
             {/* Email */}
             <motion.div 
-              className="bg-[#F3FFF3] rounded-lg p-6 flex items-center gap-4"
+              className="bg-[#F3FFF3] rounded-lg p-6 flex items-center gap-4 border border-[#229D00]"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}

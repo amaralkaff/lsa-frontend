@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ArrowDownRightIcon } from '@heroicons/react/24/solid';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import gallery1 from '../assets/gallery1.jpeg'
 import gallery2 from '../assets/gallery2.jpeg'
 import gallery3 from '../assets/gallery3.jpeg'
 import gallery4 from '../assets/gallery4.jpeg'
 
 const News = () => {
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const news = [
     {
       date: '19 Maret 2022',
@@ -99,6 +101,27 @@ const News = () => {
     }
   };
 
+  const modalVariants = {
+    hidden: {
+      opacity: 0,
+      scale: 0.8
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.3
+      }
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.8,
+      transition: {
+        duration: 0.3
+      }
+    }
+  };
+
   return (
     <motion.div 
       id="news" 
@@ -144,9 +167,10 @@ const News = () => {
             >
               {item.showImage && (
                 <motion.div 
-                  className="aspect-w-16 aspect-h-9 overflow-hidden rounded-t-lg"
+                  className="aspect-w-16 aspect-h-9 overflow-hidden rounded-t-lg cursor-pointer"
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.3 }}
+                  onClick={() => setSelectedImage(item.image)}
                 >
                   <img
                     src={item.image}
@@ -195,6 +219,43 @@ const News = () => {
           </motion.button>
         </motion.div>
       </div>
+
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedImage(null)}
+            className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4"
+          >
+            <motion.div
+              variants={modalVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="relative max-w-4xl w-full"
+              onClick={e => e.stopPropagation()}
+            >
+              <img
+                src={selectedImage}
+                alt="Enlarged view"
+                className="w-full h-auto rounded-lg"
+              />
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setSelectedImage(null)}
+                className="absolute top-4 right-4 text-white bg-black bg-opacity-50 rounded-full p-2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };
